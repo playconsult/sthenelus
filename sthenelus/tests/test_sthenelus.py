@@ -33,10 +33,8 @@ def teardown_func():
     "tear down test fixtures"
 
 @with_setup(setup_func, teardown_func)
-@patch('sthenelus.QueueClient._get_task')
 @patch('sthenelus.sthenelus.boto3.resource')
-@patch('sthenelus.sthenelus.asyncio.get_event_loop')
-def test_check_environment_raises(mock_loop, mock_resource, mock_get_task):
+def test_check_environment_raises(mock_resource):
     "test ..."
     # Arrange
     del os.environ['QUEUE_NAME']
@@ -52,10 +50,9 @@ def test_check_environment_raises(mock_loop, mock_resource, mock_get_task):
 def test_submit_sends_message(mock_resource):
     "test ..."
     # Arrange
-    Q = QueueClient()
 
     fake_task_name = fake.pystr()
-    fake_params = fake.pylist()
+    fake_params = fake.pylist(10, True, int, str)
 
     fake_resource = MagicMock()
     fake_queue = MagicMock()
@@ -66,11 +63,18 @@ def test_submit_sends_message(mock_resource):
 
     mock_resource.return_value = fake_resource
 
+    fake_payload = json.dumps({
+        'task': fake_task_name,
+        'parameters': fake_params
+    })
+
+    Q = QueueClient()
+
     # Act
     Q.submit(fake_task_name, *fake_params)
 
     # Assert
-    fake_queue.send_message.assert_called_once_with(fake_task_name, fake_params)
+    fake_queue.send_message.assert_called_once_with(MessageBody=fake_payload)
 
 
 @with_setup(setup_func, teardown_func)
@@ -79,10 +83,9 @@ def test_submit_sends_message(mock_resource):
 def test_submit_failure_logs_error(mock_resource, mock_log):
     "test ..."
     # Arrange
-    Q = QueueClient()
 
     fake_task_name = fake.pystr()
-    fake_params = fake.pylist()
+    fake_params = fake.pylist(10, True, int, str)
 
     fake_resource = MagicMock()
     fake_queue = MagicMock()
@@ -91,9 +94,18 @@ def test_submit_failure_logs_error(mock_resource, mock_log):
     fake_queue.send_message.return_value = fake_message_response
     fake_resource.get_queue_by_name.return_value = fake_queue
 
+    mock_resource.return_value = fake_resource
+
+    fake_payload = json.dumps({
+        'task': fake_task_name,
+        'parameters': fake_params
+    })
+
+    Q = QueueClient()
+
     # Act
     Q.submit(fake_task_name, *fake_params)
 
     # Assert
-    fake_queue.send_message.assert_called_once_with(fake_task_name, fake_params)
+    fake_queue.send_message.assert_called_once_with(MessageBody=fake_payload)
     mock_log.exception.assert_called()

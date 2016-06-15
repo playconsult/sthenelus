@@ -27,4 +27,5 @@ VERSION_BANNER = '{0} ({1})'.format(__version__, SERIES)
 
 from .sthenelus import QueueClient
 
-Q = QueueClient()
+class Q(QueueClient):
+    pass
