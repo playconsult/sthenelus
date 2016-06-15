@@ -14,7 +14,9 @@ class QueueClient:
 
         from sthenelus import Q
 
-        Q.submit('task_name', 'parameter1', 'parameter2')
+        task_queue = Q()
+
+        task_queue.submit('task_name', 'parameter1', 'parameter2')
     """
     queue_name = None
     log = logging.getLogger('sthenelus')

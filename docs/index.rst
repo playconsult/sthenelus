@@ -2,7 +2,7 @@ Sthenelus - Task Queue Submission
 =================================
 
 
-.. autoclass:: sthenelus.QueueProcessor
+.. autoclass:: sthenelus.QueueClient
    :members:
    :inherited-members:
 
