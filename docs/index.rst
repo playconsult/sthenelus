@@ -1,8 +1,8 @@
-Eurystheus - Task Queue Processor
+Sthenelus - Task Queue Submission
 =================================
 
 
-.. autoclass:: eurystheus.QueueProcessor
+.. autoclass:: sthenelus.QueueProcessor
    :members:
    :inherited-members:
 
