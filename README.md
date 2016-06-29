@@ -6,3 +6,9 @@ Update version in setup.py
 
 Execute the following
 > make
+
+# Usage
+
+Environment variables to set:
+* QUEUE_NAME
+* AWS_DEFAULT_REGION (e.g. eu-west-1)
