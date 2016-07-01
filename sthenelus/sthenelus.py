@@ -51,4 +51,3 @@ class QueueClient:
         # Get the queue. This returns an SQS.Queue instance
         self.queue = sqs.get_queue_by_name(QueueName=self.queue_name)
         self.log.debug('{{Queue {0}}} Ready to accept tasks.'.format(self.queue_name))
-

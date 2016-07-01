@@ -12,3 +12,5 @@ Execute the following
 Environment variables to set:
 * QUEUE_NAME
 * AWS_DEFAULT_REGION (e.g. eu-west-1)
+
+See also: https://github.com/playconsult/eurystheus
